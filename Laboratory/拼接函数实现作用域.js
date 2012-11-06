@@ -1,4 +1,3 @@
-
 var namespace=function(){
  var NSpace={
     content:'',
@@ -40,4 +39,4 @@ alert(x);
 Test1.Run();
 //alert(Test1.Get);
 alert(Test1.Get('x'));
-alert(x.x.x.Get('x'))
+alert(x.x.x.Get('x'));
