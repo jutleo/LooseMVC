@@ -1,8 +1,8 @@
 var xls=function(){};
 xls((function(){
   var z=30;
-  alert(z);
+  console.log(z);
 })());
 xls((function(){
-alert(z);
+  console.log(z);
 })());

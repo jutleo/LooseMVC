@@ -1,4 +1,4 @@
-var namespace=function(){
+﻿var namespace=function(){
  var NSpace={
     content:'',
     fn:function(){},
@@ -6,7 +6,7 @@ var namespace=function(){
      Get:function(arg){},
     Run:function(){
       this.fn='this.fn=function(arg){' +this.content +'this.Get=function(arg){if(typeof arg=="string"){return eval(arg);}};' +'return this.Get;' +'}';
-      alert(this.fn);
+      console.log(this.fn);
       eval(this.fn);
       this.fn();},
     Add:function(fn){
@@ -31,12 +31,12 @@ return NSpace;
 var Test1=namespace('x.x.x');
 Test1.Add(function(){
 var x=80;
-alert(this);
+console.log(this);
 });
 Test1.Add(function(){
-alert(x);
+console.log(x);
 });
 Test1.Run();
-//alert(Test1.Get);
-alert(Test1.Get('x'));
-alert(x.x.x.Get('x'));
+//console.log(Test1.Get);
+console.log(Test1.Get('x'));
+console.log(x.x.x.Get('x'));

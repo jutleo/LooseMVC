@@ -1,4 +1,4 @@
 (function(){
 var a=36;
-eval('alert(a)');
+eval('console.log(a)');
 })()
