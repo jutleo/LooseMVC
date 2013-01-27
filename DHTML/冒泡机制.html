@@ -1,0 +1,150 @@
+﻿<html>
+	<head>
+	<title>事件机制</title>
+	</head>
+	<body>
+	<div id="noStopBubble" class="">
+	<span class="">一般工作方式</span>
+			<ul>
+				<li><a href="">baidu</a></li>
+				<li><a href="">Google</a></li>
+			</ul>
+			<div id="" class="">
+				this is div
+				<span class="">I'm your child</span>
+			</div>
+		</div>
+		<div id="stopBubble" class="">
+		<span class="">停止事件冒泡</span>
+			<ul>
+				<li><a href="">baidu</a></li>
+				<li><a href="">Google</a></li>
+			</ul>
+			<div id="" class="">
+				this is div
+				<span class="">I'm your child</span>
+			</div>
+		</div>
+		<div id="stopDefault" class="">
+		<span class="">停止浏览器默认事件</span>
+			<ul>
+				<li><a href="http://www.baidu.com">baidu</a></li>
+				<li><a href="http://www.Google.com">Google</a></li>
+			</ul>
+			<input type = "button" value = "停止默认a标签的链接跳转功能" onclick = "setAllA_stop_Default()" />
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+<!--
+///1
+	var all = document.getElementById("noStopBubble").getElementsByTagName("*");
+	var setAll_noStopBubble = function(){
+		var Length = all.length;
+		for (var i=0;i<Length ; ++i)	//在捕捉完成后，如果没有停止冒泡，父级的事件也会激活
+		{
+			all[i].onmouseover = function(e){
+				this.style.border = "1px solid red";
+			}
+			all[i].onmouseout = function(e){
+				this.style.border = "0px";
+			}
+		}
+	};
+	setAll_noStopBubble();
+///2
+	var all = document.getElementById("stopBubble").getElementsByTagName("*");
+	var stopBubble = function(e){	//取消一般冒泡事件
+		if ( e && e.stopPropagetion){
+			e.stopPropagetion();	//W3C
+		}else{
+			window.event.cancelBubble = true;//IE
+		}
+	};
+	var setAll_stopBubble = function(){
+		var Length = all.length;
+		for (var i=0;i<Length ; ++i)	//在捕捉完成后，如果没有停止冒泡，父级的事件也会激活
+		{
+			all[i].onmouseover = function(e){
+				this.style.border = "1px solid red";
+				stopBubble(e);
+			}
+			all[i].onmouseout = function(e){
+				this.style.border = "0px";
+				stopBubble(e);
+			}
+		}
+	};
+	setAll_stopBubble();
+///3
+	var all_a = document.getElementById("stopDefault").getElementsByTagName("a");
+	var stopDefault = function(e){	//阻止浏览器默认行为
+		if ( e && e.preventDefault){
+			e.preventDefault();	//W3C
+		}else{
+			window.event.returnValue = false;//IE
+		}
+		return false;
+	};
+	var setAllA_stop_Default = function(){
+		var Length = all_a.length;
+		for (var i=0;i<Length ; ++i)
+		{
+			all_a[i].onclick = function(){
+				return stopDefault();
+			}
+		}
+	};
+///4
+	var addEvent = function(element, type, handler){
+		if (!handler.$$guid){	//为事件添加唯一ID
+			handler.$$guid = addEvent.guid++;
+		}
+		if (!element.events){	//创建事件散列表
+			handler.events = {}
+		}
+		var handlers = element.events[type];
+		if (!handlers){	//此类事件未存在
+			handlers = element.events[type] = {};	//初始化事件队列
+			if (element["on"+type]){	//如果原始已经存在事件，将之存储
+				handlers[0] = element["on"+type];
+			}
+		}
+		//将事件存储入散列表中
+		handlers[handler.$$guid] = handler;
+		//为元素绑定“全局事件处理函数”用来处理所有工作
+		element["on"+type] = handlerEvent;
+	};
+	addEvent.guid = 1;//创建独立计数器
+	var removeEvent = function(element, type, handler){
+		if (element.events && element.elements[type]){
+			delete element.events[type][hanlder.$$guid];
+		}
+	}
+	var hanlderEvent = function(event){
+		var returnValue = true;
+		event = event || fixEvent(window.event);
+		var hanlders = this.event[event.type];
+		for (var i in hanlders)
+		{
+			this.$$hanlderEvent = hanlders[i];
+			if (this.$$hanlderEvent(event) === false){
+				returnValue = false;
+			}
+		}
+		return returnValue;
+	}
+
+	var fixEvent(event){	//兼容IE的方法
+		event.preventDefault = fixEvent.preventDefault;
+		event.stopPropagation = fixEvent.stopPropagation;
+		return event;
+	}
+	fixEvent.preventDefault = function(){
+		this.returnValue = false;
+	}
+	fixEvent.stopPropagation = function(){
+		this.cancelBubble = true;
+	}
+//-->
+</script>
