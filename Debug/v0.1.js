@@ -253,11 +253,16 @@ var Binder = function (data, key) {
             get: function () {
                 var result = privates._content;
                 if (privates._type === "function") {
-                    if (arguments.length === 0 && privates._key.length !== 0) {
-                        arguments = privates._key;
-                        result = result.apply(privates._content, arguments);
+                    if (arguments.length === 0) {
+                        if (privates._key.length !== 0) {
+                            arguments = privates._key;
+                            result = result.apply(privates._content, arguments);
+                        }
+                        else {
+                            result = result.call(privates._content);
+                        }
                     } else {
-                        result = result.call(privates._content);
+                        result = result.apply(privates._content, arguments);
                     }
                 } else {
                     if (privates._type === "object") {
@@ -296,7 +301,7 @@ var Binder = function (data, key) {
                     config = key;
                     bindkey = null;
                 }
-                config = config || { updateKey: null, weights: 0, forceUpdate: 0, compromise: false };
+                config = config || { updateKey: null, weights: 0, forceUpdate: false, compromise: false };
                 var binderobj;
                 if (!obj.info) {//如果绑定对象不是绑定器
                     binderobj = Binder(obj);
@@ -325,7 +330,7 @@ var Binder = function (data, key) {
                     config = updateKey;
                     monitorkey = null;
                 }
-                config = config || { key: null, weights: 0, forceUpdate: 0, compromise: false };
+                config = config || { key: null, weights: 0, forceUpdate: false, compromise: false };
                 var monitorobj;
                 if (!obj.info) {//如果监听对象不是绑定器
                     monitorobj = allBinders[Binder(obj).id];

@@ -32,8 +32,8 @@
       T1.binding(A1, { updateKey: ["innerHTML", "title"] });
  //     A1.monitor(T1, function () { console.log(this); this.innerHTML = T1.get(); });
 
-      var A2 = Binder(function () {
-          document.getElementById("A2").innerHTML = T1.get() + " " + T2.get();
+      var A2 = Binder(function (t1,t2) {
+          document.getElementById("A2").innerHTML = t1.get() + " " + t2.get();
       }, [T1, T2]);
 
 
