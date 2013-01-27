@@ -13,12 +13,32 @@
  </head>
 
  <body>
-  <h1> </h1>
-
+  <input type="text" id="Text1" onchange="this.set(this.value)" />
+  <input type="text" id="Text2" onchange="this.set(this.value)" />
+  <a id="A1">single</a>
+  <a id="A2" style="color:#0FF0FF">double</a>
+  <a id="A3" style="color:#F00FFF">three</a>
  </body>
 </html>
   <script type="text/javascript">
   <!--
-	document.write(typeof document.getElementsByTagName("h1")[0]);
+      var T1 = Binder(document.getElementById("Text1"));
+      var T2 = Binder(document.getElementById("Text2"));
+      T1.binding(T2);
+      T2.binding(T1);
+
+      var A1 = Binder(document.getElementById("A1"), "innerHTML");
+
+      T1.binding(A1, { updateKey: ["innerHTML", "title"] });
+ //     A1.monitor(T1, function () { console.log(this); this.innerHTML = T1.get(); });
+
+      var A2 = Binder(function () {
+          document.getElementById("A2").innerHTML = T1.get() + " " + T2.get();
+      }, [T1, T2]);
+
+
+      T1.binding(document.getElementById("A3"), function (binder) {
+          binder.innerHTML = "hee:" + this.value;
+      });
   //-->
   </script>
