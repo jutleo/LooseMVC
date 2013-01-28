@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Loosemvc by Gaubee</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Loosemvc</h1>
+        <p>松散的Javascript MVC框架。尝试与其他框架进行整合！</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/Gaubee/LooseMVC" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/Gaubee/LooseMVC/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/Gaubee/LooseMVC/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <p><em>Model模块</em></p>
+
+<hr><h2>版本号：v0.1.1</h2>
+
+<p>已经实现了对object类型和string、number、boolean类型的基本绑定功能
+  并对HTML元素的绑定（View Model）进行初步的特殊设定，并且会进一步完善VM模块</p>
+
+<hr><h2>快速开始</h2>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">Binder</span><span class="p">(</span><span class="s2">"hello word"</span><span class="p">);</span>
+</pre></div>
+
+<h2>基本操作</h2>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">Binder</span><span class="p">(</span><span class="s2">"Hello"</span><span class="p">);</span>
+<span class="nx">b</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">"hi my lover"</span><span class="p">);</span>
+<span class="nx">b</span><span class="p">.</span><span class="nx">get</span><span class="p">()</span>  <span class="c1">//Return"hi my lover"</span>
+</pre></div>
+
+<h2>绑定类型</h2>
+
+<ul>
+<li>
+<em>简单类型(Single type)</em> [number、string、boolean]</li>
+<li><em>复合对象(Object type)</em></li>
+<li><em>功能对象(Function type)</em></li>
+</ul><div class="highlight"><pre><span class="c1">//[number、string、boolean]</span>
+<span class="kd">var</span> <span class="nx">sin</span> <span class="o">=</span> <span class="nx">Binder</span><span class="p">(</span><span class="mi">23</span><span class="p">);</span>
+<span class="c1">//Object</span>
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">Binder</span><span class="p">({</span><span class="nx">firstname</span><span class="o">:</span><span class="s2">"Gaubee"</span><span class="p">,</span><span class="nx">lastname</span><span class="o">:</span><span class="s2">"bangeel"</span><span class="p">});</span>
+<span class="c1">//HTML Object</span>
+<span class="c1">//bind model and it's key word for default update,and "value" is default currently</span>
+<span class="kd">var</span> <span class="nx">firstname</span> <span class="o">=</span> <span class="nx">Binder</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"firstname"</span><span class="p">),</span><span class="s2">"innerHTML"</span><span class="p">);</span>
+<span class="c1">//Function</span>
+<span class="kd">var</span> <span class="nx">fullname</span> <span class="o">=</span> <span class="nx">Binder</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">firstname</span><span class="p">,</span><span class="nx">lastname</span><span class="p">){</span>
+ <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"fullname"</span><span class="p">)</span> <span class="o">=</span> <span class="nx">firstname</span><span class="p">.</span><span class="nx">value</span>
+                                     <span class="o">+</span> <span class="s2">" "</span>
+                                     <span class="o">+</span> <span class="nx">lastname</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+<span class="p">},[</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"firstname"</span><span class="p">),</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"firstname"</span><span class="p">)]);</span>
+</pre></div>
+
+<h2>绑定操作</h2>
+
+<ul>
+<li>直接绑定</li>
+<li>监听绑定 <em>结构和功能未完善，建议直接使用 <em>直接绑定</em></em>
+</li>
+<li><p>双向绑定 <em>结构和功能还在设计中</em></p></li>
+<li><p>简单对象绑定</p></li>
+</ul><div class="highlight"><pre><span class="kd">var</span> <span class="nx">str1</span> <span class="o">=</span> <span class="nx">Binder</span><span class="p">(</span><span class="s2">"hello word"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">str2</span> <span class="o">=</span> <span class="nx">Binder</span><span class="p">(</span><span class="s2">"hi my love"</span><span class="p">);</span>
+<span class="nx">str1</span><span class="p">.</span><span class="nx">binding</span><span class="p">(</span><span class="nx">str2</span><span class="p">);</span>
+<span class="nx">str1</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">"you are mine"</span><span class="p">);</span>
+<span class="nx">str2</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span><span class="c1">//still return "hi my love".Will not immediately change the binding is asynchronous,</span>
+<span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+ <span class="nx">str2</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span><span class="c1">//return "you are mine"</span>
+<span class="p">},</span><span class="mi">10</span><span class="p">);</span>
+</pre></div>
+
+<ul>
+<li>复合对象绑定:</li>
+</ul><div class="highlight"><pre><span class="kd">var</span> <span class="nx">firstname</span> <span class="o">=</span> <span class="nx">Binder</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"firstname"</span><span class="p">));</span>
+<span class="kd">var</span> <span class="nx">lastname</span> <span class="o">=</span> <span class="nx">Binder</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"lastname"</span><span class="p">));</span>
+<span class="c1">//if run ".get()",return document.getElementById("firstname").value,"value" is default key</span>
+
+<span class="c1">//objbind-model,if firstname being changed,fullname will be changing too;</span>
+<span class="c1">//@Binder obj,if not,conver defaultly;</span>
+<span class="c1">//@[key word],string type,if not,it will take the key word when fitstname being init;</span>
+<span class="c1">//@[config],{ updateKey: null, weights: 0, forceUpdate: 0, compromise: false },</span>
+ <span class="c1">//forceUpdate Means whether mandatory update already exists, even if the update history(update route table)</span>
+ <span class="c1">//【DANGER, WARNING】,it may be cause an infinite loop,and continuously updated</span>
+<span class="nx">firstname</span><span class="p">.</span><span class="nx">binding</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"fullname"</span><span class="p">),{</span><span class="nx">updateKey</span><span class="o">:</span><span class="p">[</span><span class="s2">"title"</span><span class="p">,</span><span class="s2">"innerHTML"</span><span class="p">]});</span>
+
+<span class="c1">//and for lastname</span>
+<span class="nx">lastname</span><span class="p">.</span><span class="nx">binding</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"fullname"</span><span class="p">),{</span><span class="nx">updateKey</span><span class="o">:</span><span class="p">[</span><span class="s2">"title"</span><span class="p">,</span><span class="s2">"innerHTML"</span><span class="p">]});</span>
+<span class="c1">//you could do that soon: </span>
+ <span class="c1">//fullname.monitorList([firstname,lastname],["title","innerHTML"]);</span>
+</pre></div>
+
+<ul>
+<li>计算功能绑定:</li>
+</ul><div class="highlight"><pre><span class="kd">var</span> <span class="nx">fullname</span> <span class="o">=</span> <span class="nx">Binder</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">n1</span><span class="p">,</span><span class="nx">n2</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"fullname"</span><span class="p">).</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">n1</span><span class="p">.</span><span class="nx">get</span><span class="p">()</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="nx">n2</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
+      <span class="p">},</span> <span class="p">[</span><span class="nx">firstname</span><span class="p">,</span><span class="nx">lastname</span><span class="p">]);</span>
+</pre></div>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/Gaubee">Gaubee</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
